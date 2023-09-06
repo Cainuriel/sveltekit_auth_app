@@ -6,6 +6,7 @@
 
     let email: string; 
     let password: string;
+    let wallet: string;
     let passwordConfirmation: string; 
 
     export let form: ActionData;
@@ -29,18 +30,18 @@
             <Error message="All fields are required, please try again." />
         </div>
     {/if}
-
+<!-- 
     {#if form?.unique}
-        <div transition:fade>
-            <Error message="This email already exists, please try again." />
-        </div>
-    {/if}
+    <div transition:fade>
+        <Error message="This email already exists, please try again." />
+    </div>
+    {/if} -->
 
     <form class="space-y-4 md:space-y-6" action="?/register" method="POST">
         <TextField
             id="email" 
             type="email"
-            placeholder="michaelowen@gmail.com"
+            placeholder="example@gmail.com"
             label={true}
             labelText="Your Email"
             required={true}
@@ -64,12 +65,19 @@
             required={true}
             bind:value={passwordConfirmation}
         />
+        <TextField 
+            id="wallet" 
+            type="text"
+            bind:value={wallet}
+            required={true}
+            labelText="private key"
+        />
         <div class="flex items-start">
-            <div class="flex items-center h-5">
+            <!-- <div class="flex items-center h-5">
               <input id="terms" aria-describedby="terms" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required>
-            </div>
+            </div> -->
             <div class="ml-3 text-sm">
-              <label for="terms" class="font-light text-gray-500 dark:text-gray-300">I accept the <a class="font-medium text-primary-600 hover:underline dark:text-primary-500" href="/terms-and-conditions">Terms and Conditions</a></label>
+              <label for="terms" class="font-light text-gray-500 dark:text-gray-300">Copie su wallet y guardela en un sitio seguro</label>
             </div>
         </div>
         <button class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create an account</button>

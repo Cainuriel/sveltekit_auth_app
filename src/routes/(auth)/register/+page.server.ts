@@ -3,27 +3,36 @@ import { db } from '$lib/database';
 import { invalid, redirect } from '@sveltejs/kit';
 import { hashSync } from 'bcryptjs';
 import { randomUUID } from 'crypto';
-import { setAuthenticationCookies } from '$lib/cookies';
+// import { setAuthenticationCookies } from '$lib/cookies';
+import { PrismaClient } from '@prisma/client'
+
 
 export const actions: Actions = {
     register: async ({ cookies, request }) => {
         const data = await request.formData();
         const email = data.get('email');
         const password = data.get('password');
+        const wallet = data.get('wallet');
         const password_confirmation = data.get('password-confirmation');
+        const prisma = new PrismaClient();
 
         if (!email || !password || !password_confirmation)
             return invalid(400, { required: true })
 
-        if (! await validateEmail(String(email)))
-            return invalid(400, { unique: true })
+        // if (! await validateEmail(String(email)))
+        //     return invalid(400, { unique: true })
 
         if (password === password_confirmation) {
-            const user = await createUser(String(email), String(password));
-            const uuid = user.uuid;
 
+            await prisma.User.create({
+                data: {
+                  name: 'Maria',
+                  email: email,
+                  password: password,
+                  wallet: wallet,
+                 }
+              })
 
-        setAuthenticationCookies(cookies, uuid);
         
         } else {
             return invalid(400, {password, passwordsNotMatch: true});
